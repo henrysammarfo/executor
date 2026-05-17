@@ -14,16 +14,196 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      action_items: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          due_date: string | null
+          id: string
+          meeting_id: string
+          owner_id: string
+          priority: Database["public"]["Enums"]["priority_level"]
+          risk_reason: string | null
+          risk_score: number | null
+          status: Database["public"]["Enums"]["action_status"]
+          verbatim_quote: string | null
+          what: string
+          who_email: string | null
+          who_name: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          meeting_id: string
+          owner_id: string
+          priority?: Database["public"]["Enums"]["priority_level"]
+          risk_reason?: string | null
+          risk_score?: number | null
+          status?: Database["public"]["Enums"]["action_status"]
+          verbatim_quote?: string | null
+          what: string
+          who_email?: string | null
+          who_name?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          meeting_id?: string
+          owner_id?: string
+          priority?: Database["public"]["Enums"]["priority_level"]
+          risk_reason?: string | null
+          risk_score?: number | null
+          status?: Database["public"]["Enums"]["action_status"]
+          verbatim_quote?: string | null
+          what?: string
+          who_email?: string | null
+          who_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_items_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      follow_ups: {
+        Row: {
+          action_item_id: string
+          created_at: string
+          draft_email: string
+          draft_subject: string
+          id: string
+          owner_id: string
+          scheduled_send_at: string | null
+          sent_at: string | null
+          status: Database["public"]["Enums"]["followup_status"]
+        }
+        Insert: {
+          action_item_id: string
+          created_at?: string
+          draft_email: string
+          draft_subject: string
+          id?: string
+          owner_id: string
+          scheduled_send_at?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["followup_status"]
+        }
+        Update: {
+          action_item_id?: string
+          created_at?: string
+          draft_email?: string
+          draft_subject?: string
+          id?: string
+          owner_id?: string
+          scheduled_send_at?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["followup_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follow_ups_action_item_id_fkey"
+            columns: ["action_item_id"]
+            isOneToOne: false
+            referencedRelation: "action_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          audio_path: string | null
+          created_at: string
+          id: string
+          organizer_email: string | null
+          owner_id: string
+          title: string
+          transcript_text: string | null
+        }
+        Insert: {
+          audio_path?: string | null
+          created_at?: string
+          id?: string
+          organizer_email?: string | null
+          owner_id: string
+          title: string
+          transcript_text?: string | null
+        }
+        Update: {
+          audio_path?: string | null
+          created_at?: string
+          id?: string
+          organizer_email?: string | null
+          owner_id?: string
+          title?: string
+          transcript_text?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      action_status: "open" | "overdue" | "complete"
+      app_role: "admin" | "user"
+      followup_status: "pending_review" | "auto_send" | "sent" | "cancelled"
+      priority_level: "high" | "medium" | "low"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +330,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      action_status: ["open", "overdue", "complete"],
+      app_role: ["admin", "user"],
+      followup_status: ["pending_review", "auto_send", "sent", "cancelled"],
+      priority_level: ["high", "medium", "low"],
+    },
   },
 } as const
