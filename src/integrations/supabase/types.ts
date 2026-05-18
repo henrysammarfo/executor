@@ -73,6 +73,45 @@ export type Database = {
           },
         ]
       }
+      execution_log: {
+        Row: {
+          action_item_id: string | null
+          created_at: string
+          event_type: string
+          follow_up_id: string | null
+          id: string
+          meeting_id: string | null
+          message: string | null
+          metadata: Json | null
+          owner_id: string | null
+          status: string
+        }
+        Insert: {
+          action_item_id?: string | null
+          created_at?: string
+          event_type: string
+          follow_up_id?: string | null
+          id?: string
+          meeting_id?: string | null
+          message?: string | null
+          metadata?: Json | null
+          owner_id?: string | null
+          status?: string
+        }
+        Update: {
+          action_item_id?: string | null
+          created_at?: string
+          event_type?: string
+          follow_up_id?: string | null
+          id?: string
+          meeting_id?: string | null
+          message?: string | null
+          metadata?: Json | null
+          owner_id?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       follow_ups: {
         Row: {
           action_item_id: string
@@ -80,7 +119,10 @@ export type Database = {
           draft_email: string
           draft_subject: string
           id: string
+          last_attempt_at: string | null
+          last_error: string | null
           owner_id: string
+          retry_count: number
           scheduled_send_at: string | null
           sent_at: string | null
           status: Database["public"]["Enums"]["followup_status"]
@@ -91,7 +133,10 @@ export type Database = {
           draft_email: string
           draft_subject: string
           id?: string
+          last_attempt_at?: string | null
+          last_error?: string | null
           owner_id: string
+          retry_count?: number
           scheduled_send_at?: string | null
           sent_at?: string | null
           status?: Database["public"]["Enums"]["followup_status"]
@@ -102,7 +147,10 @@ export type Database = {
           draft_email?: string
           draft_subject?: string
           id?: string
+          last_attempt_at?: string | null
+          last_error?: string | null
           owner_id?: string
+          retry_count?: number
           scheduled_send_at?: string | null
           sent_at?: string | null
           status?: Database["public"]["Enums"]["followup_status"]
@@ -124,6 +172,7 @@ export type Database = {
           id: string
           organizer_email: string | null
           owner_id: string
+          source: string
           title: string
           transcript_text: string | null
         }
@@ -133,6 +182,7 @@ export type Database = {
           id?: string
           organizer_email?: string | null
           owner_id: string
+          source?: string
           title: string
           transcript_text?: string | null
         }
@@ -142,6 +192,7 @@ export type Database = {
           id?: string
           organizer_email?: string | null
           owner_id?: string
+          source?: string
           title?: string
           transcript_text?: string | null
         }
@@ -202,7 +253,12 @@ export type Database = {
     Enums: {
       action_status: "open" | "overdue" | "complete"
       app_role: "admin" | "user"
-      followup_status: "pending_review" | "auto_send" | "sent" | "cancelled"
+      followup_status:
+        | "pending_review"
+        | "auto_send"
+        | "sent"
+        | "cancelled"
+        | "failed"
       priority_level: "high" | "medium" | "low"
     }
     CompositeTypes: {
@@ -333,7 +389,13 @@ export const Constants = {
     Enums: {
       action_status: ["open", "overdue", "complete"],
       app_role: ["admin", "user"],
-      followup_status: ["pending_review", "auto_send", "sent", "cancelled"],
+      followup_status: [
+        "pending_review",
+        "auto_send",
+        "sent",
+        "cancelled",
+        "failed",
+      ],
       priority_level: ["high", "medium", "low"],
     },
   },
