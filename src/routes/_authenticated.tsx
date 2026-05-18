@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect, Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, Upload, Mail, FileAudio, LogOut } from "lucide-react";
+import { LayoutDashboard, Upload, Mail, FileAudio, LogOut, ScrollText } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async () => {
@@ -29,6 +29,7 @@ function AuthLayout() {
           <SideLink to="/upload" icon={Upload}>New meeting</SideLink>
           <SideLink to="/meetings" icon={FileAudio}>Meetings</SideLink>
           <SideLink to="/followups" icon={Mail}>Follow-ups</SideLink>
+          <SideLink to="/audit" icon={ScrollText}>Audit log</SideLink>
         </nav>
         <div className="mt-auto pt-6 border-t border-border/60">
           <div className="text-xs text-foreground/50 truncate">{email}</div>
