@@ -19,7 +19,9 @@ import { Route as AuthenticatedUploadRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedMeetingsRouteImport } from './routes/_authenticated/meetings'
 import { Route as AuthenticatedFollowupsRouteImport } from './routes/_authenticated/followups'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAuditRouteImport } from './routes/_authenticated/audit'
 import { Route as ApiPublicMonitorRouteImport } from './routes/api/public/monitor'
+import { Route as ApiPublicIngestRouteImport } from './routes/api/public/ingest'
 import { Route as AuthenticatedMeetingsIdRouteImport } from './routes/_authenticated/meetings.$id'
 
 const ProductRoute = ProductRouteImport.update({
@@ -71,9 +73,19 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAuditRoute = AuthenticatedAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const ApiPublicMonitorRoute = ApiPublicMonitorRouteImport.update({
   id: '/api/public/monitor',
   path: '/api/public/monitor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicIngestRoute = ApiPublicIngestRouteImport.update({
+  id: '/api/public/ingest',
+  path: '/api/public/ingest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedMeetingsIdRoute = AuthenticatedMeetingsIdRouteImport.update({
@@ -88,11 +100,13 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/product': typeof ProductRoute
+  '/audit': typeof AuthenticatedAuditRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/followups': typeof AuthenticatedFollowupsRoute
   '/meetings': typeof AuthenticatedMeetingsRouteWithChildren
   '/upload': typeof AuthenticatedUploadRoute
   '/meetings/$id': typeof AuthenticatedMeetingsIdRoute
+  '/api/public/ingest': typeof ApiPublicIngestRoute
   '/api/public/monitor': typeof ApiPublicMonitorRoute
 }
 export interface FileRoutesByTo {
@@ -101,11 +115,13 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/product': typeof ProductRoute
+  '/audit': typeof AuthenticatedAuditRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/followups': typeof AuthenticatedFollowupsRoute
   '/meetings': typeof AuthenticatedMeetingsRouteWithChildren
   '/upload': typeof AuthenticatedUploadRoute
   '/meetings/$id': typeof AuthenticatedMeetingsIdRoute
+  '/api/public/ingest': typeof ApiPublicIngestRoute
   '/api/public/monitor': typeof ApiPublicMonitorRoute
 }
 export interface FileRoutesById {
@@ -116,11 +132,13 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/product': typeof ProductRoute
+  '/_authenticated/audit': typeof AuthenticatedAuditRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/followups': typeof AuthenticatedFollowupsRoute
   '/_authenticated/meetings': typeof AuthenticatedMeetingsRouteWithChildren
   '/_authenticated/upload': typeof AuthenticatedUploadRoute
   '/_authenticated/meetings/$id': typeof AuthenticatedMeetingsIdRoute
+  '/api/public/ingest': typeof ApiPublicIngestRoute
   '/api/public/monitor': typeof ApiPublicMonitorRoute
 }
 export interface FileRouteTypes {
@@ -131,11 +149,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/product'
+    | '/audit'
     | '/dashboard'
     | '/followups'
     | '/meetings'
     | '/upload'
     | '/meetings/$id'
+    | '/api/public/ingest'
     | '/api/public/monitor'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -144,11 +164,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/product'
+    | '/audit'
     | '/dashboard'
     | '/followups'
     | '/meetings'
     | '/upload'
     | '/meetings/$id'
+    | '/api/public/ingest'
     | '/api/public/monitor'
   id:
     | '__root__'
@@ -158,11 +180,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/product'
+    | '/_authenticated/audit'
     | '/_authenticated/dashboard'
     | '/_authenticated/followups'
     | '/_authenticated/meetings'
     | '/_authenticated/upload'
     | '/_authenticated/meetings/$id'
+    | '/api/public/ingest'
     | '/api/public/monitor'
   fileRoutesById: FileRoutesById
 }
@@ -173,6 +197,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PricingRoute: typeof PricingRoute
   ProductRoute: typeof ProductRoute
+  ApiPublicIngestRoute: typeof ApiPublicIngestRoute
   ApiPublicMonitorRoute: typeof ApiPublicMonitorRoute
 }
 
@@ -248,11 +273,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/audit': {
+      id: '/_authenticated/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuthenticatedAuditRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/api/public/monitor': {
       id: '/api/public/monitor'
       path: '/api/public/monitor'
       fullPath: '/api/public/monitor'
       preLoaderRoute: typeof ApiPublicMonitorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ingest': {
+      id: '/api/public/ingest'
+      path: '/api/public/ingest'
+      fullPath: '/api/public/ingest'
+      preLoaderRoute: typeof ApiPublicIngestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/meetings/$id': {
@@ -279,6 +318,7 @@ const AuthenticatedMeetingsRouteWithChildren =
   )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAuditRoute: typeof AuthenticatedAuditRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedFollowupsRoute: typeof AuthenticatedFollowupsRoute
   AuthenticatedMeetingsRoute: typeof AuthenticatedMeetingsRouteWithChildren
@@ -286,6 +326,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAuditRoute: AuthenticatedAuditRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedFollowupsRoute: AuthenticatedFollowupsRoute,
   AuthenticatedMeetingsRoute: AuthenticatedMeetingsRouteWithChildren,
@@ -303,6 +344,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PricingRoute: PricingRoute,
   ProductRoute: ProductRoute,
+  ApiPublicIngestRoute: ApiPublicIngestRoute,
   ApiPublicMonitorRoute: ApiPublicMonitorRoute,
 }
 export const routeTree = rootRouteImport
