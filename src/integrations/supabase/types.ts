@@ -16,10 +16,14 @@ export type Database = {
     Tables: {
       action_items: {
         Row: {
+          asana_task_gid: string | null
+          asana_task_url: string | null
           completed_at: string | null
           created_at: string
           due_date: string | null
           id: string
+          jira_issue_key: string | null
+          jira_issue_url: string | null
           meeting_id: string
           owner_id: string
           priority: Database["public"]["Enums"]["priority_level"]
@@ -32,10 +36,14 @@ export type Database = {
           who_name: string | null
         }
         Insert: {
+          asana_task_gid?: string | null
+          asana_task_url?: string | null
           completed_at?: string | null
           created_at?: string
           due_date?: string | null
           id?: string
+          jira_issue_key?: string | null
+          jira_issue_url?: string | null
           meeting_id: string
           owner_id: string
           priority?: Database["public"]["Enums"]["priority_level"]
@@ -48,10 +56,14 @@ export type Database = {
           who_name?: string | null
         }
         Update: {
+          asana_task_gid?: string | null
+          asana_task_url?: string | null
           completed_at?: string | null
           created_at?: string
           due_date?: string | null
           id?: string
+          jira_issue_key?: string | null
+          jira_issue_url?: string | null
           meeting_id?: string
           owner_id?: string
           priority?: Database["public"]["Enums"]["priority_level"]
