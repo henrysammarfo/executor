@@ -21,7 +21,7 @@ export async function audit(e: AuditEvent) {
       meeting_id: e.meeting_id ?? null,
       action_item_id: e.action_item_id ?? null,
       follow_up_id: e.follow_up_id ?? null,
-      metadata: e.metadata ?? null,
+      metadata: (e.metadata ?? null) as never,
     });
   } catch (err) {
     console.error("audit log failed", err);
