@@ -2,6 +2,23 @@
 
 Autonomous meeting-to-execution enforcement. EXECUTOR turns meeting audio or transcripts into owned commitments, monitors whether they are completed, and drafts or sends follow-ups when deadlines slip.
 
+## Demo And Submission Snapshot
+
+- Live demo: https://executor.genesis-ai.workers.dev
+- Judge brief: [JUDGES.md](./JUDGES.md)
+- Submission assets: [submission/](./submission)
+- Primary tracks: Google Track, Vultr, Speechmatics, Enterprise Utility, Agentic Workflows, Intelligent Reasoning, Collaborative Systems, Multimodal Intelligence
+- Sponsor usage: Gemini for reasoning, Speechmatics for live transcription, Vultr for the autonomous monitor worker
+- Core claim: meeting AI should not stop at summaries; EXECUTOR enforces the path from decision to done
+
+## Why It Should Shortlist
+
+- Working production-style app, not a static prototype: authentication, database, live meeting flow, integrations, monitor worker, and public deployment are wired.
+- Direct sponsor alignment: Gemini, Speechmatics, and Vultr are all part of the core product loop, not decorative mentions.
+- Autonomous workflow: the system extracts commitments, syncs tasks, monitors deadlines every six hours, drafts follow-ups, and escalates repeated misses.
+- Enterprise utility: solves the accountability gap after meetings for operations, product, sales, support, and leadership teams.
+- Human-in-the-loop safety: follow-ups and manager escalations are drafted for review, logged, retryable, cancellable, and auditable.
+
 ## Architecture
 
 - Scribe: Speechmatics batch transcription for uploads and Speechmatics realtime transcription for live meetings.

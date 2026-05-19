@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { SiteNav, SiteFooter } from "@/components/site-chrome";
-import { Star, Mic, ListChecks, AlertTriangle, Send, Radar } from "lucide-react";
+import { Mic, ListChecks, AlertTriangle, Send, Radar } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -60,7 +60,7 @@ function Hero() {
           className="inline-flex items-center gap-2 rounded-full bg-white/80 backdrop-blur px-4 py-1.5 border border-border/60 text-xs text-foreground/70 shadow-soft"
         >
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-[oklch(0.72_0.16_150)]" />
-          Live: 5-agent execution pipeline
+          AI Agent Olympics: Gemini + Speechmatics + Vultr
         </motion.div>
 
         <motion.h1
@@ -119,18 +119,18 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="flex items-center gap-3 text-xs text-foreground/70"
+          className="flex flex-wrap items-center justify-center gap-3 text-xs text-foreground/70"
         >
-          <div className="flex -space-x-1">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Star key={i} className="h-3.5 w-3.5 fill-[#f5b400] text-[#f5b400]" />
-            ))}
-          </div>
-          <span>
-            <span className="font-medium text-foreground">1,020+</span> Reviews
-          </span>
-          <span className="text-foreground/30">·</span>
-          <span>Trusted by ops leaders at 40+ teams</span>
+          {["Google Gemini", "Speechmatics live transcription", "Vultr monitor worker"].map(
+            (label) => (
+              <span
+                key={label}
+                className="rounded-full border border-border/70 bg-white/70 px-3 py-1 shadow-soft"
+              >
+                {label}
+              </span>
+            ),
+          )}
         </motion.div>
       </div>
     </section>
