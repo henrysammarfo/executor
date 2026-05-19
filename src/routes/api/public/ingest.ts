@@ -31,7 +31,11 @@ export const Route = createFileRoute("/api/public/ingest")({
           return new Response("Invalid signature", { status: 401 });
         }
         let json: unknown;
-        try { json = JSON.parse(raw); } catch { return new Response("Bad JSON", { status: 400 }); }
+        try {
+          json = JSON.parse(raw);
+        } catch {
+          return new Response("Bad JSON", { status: 400 });
+        }
         const parsed = Body.safeParse(json);
         if (!parsed.success) {
           return Response.json({ error: parsed.error.flatten() }, { status: 400 });

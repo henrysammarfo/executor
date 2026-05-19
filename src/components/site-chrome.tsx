@@ -18,22 +18,37 @@ export function SiteNav() {
           <span>EXECUTOR</span>
         </Link>
         <nav className="hidden md:flex items-center gap-8 text-sm text-foreground/70">
-          <Link to="/product" className="hover:text-foreground">Product</Link>
-          <Link to="/pricing" className="hover:text-foreground">Pricing</Link>
-          <Link to="/about" className="hover:text-foreground">About</Link>
+          <Link to="/product" className="hover:text-foreground">
+            Product
+          </Link>
+          <Link to="/pricing" className="hover:text-foreground">
+            Pricing
+          </Link>
+          <Link to="/about" className="hover:text-foreground">
+            About
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           {authed ? (
             <>
-              <Link to="/dashboard" className="text-sm hover:underline">Dashboard</Link>
+              <Link to="/dashboard" className="text-sm hover:underline">
+                Dashboard
+              </Link>
               <button
-                onClick={async () => { await supabase.auth.signOut(); router.navigate({ to: "/" }); }}
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  router.navigate({ to: "/" });
+                }}
                 className="text-sm text-foreground/70 hover:text-foreground"
-              >Sign out</button>
+              >
+                Sign out
+              </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-sm hover:underline">Sign in</Link>
+              <Link to="/login" className="text-sm hover:underline">
+                Sign in
+              </Link>
               <Link to="/login" className="text-sm rounded-full cta-glossy px-4 py-2">
                 Get started
               </Link>

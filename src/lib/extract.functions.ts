@@ -1,8 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
+import { getGeminiFlashModel, getGeminiProModel } from "@/lib/ai-gateway";
 import { generateText, Output } from "ai";
 import { z } from "zod";
+import { scoreActionItemRisk } from "@/lib/risk-score";
 
 const ItemSchema = z.object({
   what: z.string(),
@@ -26,9 +27,7 @@ export const extractActionItems = createServerFn({ method: "POST" })
     if (mErr || !meeting) throw new Error("Meeting not found");
     if (!meeting.transcript_text) throw new Error("Meeting has no transcript");
 
-    const apiKey = process.env.LOVABLE_API_KEY!;
-    const gateway = createLovableAiGatewayProvider(apiKey);
-    const model = gateway("google/gemini-3-pro-preview");
+    const model = getGeminiProModel();
 
     const today = new Date().toISOString().slice(0, 10);
     const prompt = `Today is ${today}. Extract every action item from this meeting transcript.
@@ -57,17 +56,22 @@ ${meeting.transcript_text}`;
     const items = experimental_output.items;
     if (items.length === 0) return { inserted: 0, items: [] };
 
-    const rows = items.map((it) => ({
-      meeting_id: meeting.id,
-      owner_id: userId,
-      what: it.what,
-      who_name: it.who_name,
-      who_email: it.who_email,
-      due_date: it.due_date,
-      priority: it.priority,
-      verbatim_quote: it.verbatim_quote,
-      status: "open" as const,
-    }));
+    const rows = items.map((it) => {
+      const baselineRisk = scoreActionItemRisk(it);
+      return {
+        meeting_id: meeting.id,
+        owner_id: userId,
+        what: it.what,
+        who_name: it.who_name,
+        who_email: it.who_email,
+        due_date: it.due_date,
+        priority: it.priority,
+        verbatim_quote: it.verbatim_quote,
+        risk_score: baselineRisk.score,
+        risk_reason: baselineRisk.reason,
+        status: "open" as const,
+      };
+    });
 
     const { data: inserted, error: iErr } = await supabase
       .from("action_items")
@@ -77,7 +81,7 @@ ${meeting.transcript_text}`;
 
     // Best-effort risk scoring (don't fail if it errors)
     try {
-      const riskModel = gateway("google/gemini-3-flash-preview");
+      const riskModel = getGeminiFlashModel();
       await Promise.all(
         (inserted ?? []).map(async (row) => {
           const { experimental_output: r } = await generateText({

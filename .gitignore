@@ -14,11 +14,17 @@ dist-ssr
 .vinxi
 .tanstack/**
 .nitro
+.env
+envtemp.txt
 *.local
+!.env.example
 
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
+
+# Supabase local CLI state
+supabase/.temp/
 
 # Editor directories and files
 .vscode/*

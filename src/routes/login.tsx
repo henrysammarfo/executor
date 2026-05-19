@@ -13,6 +13,8 @@ export const Route = createFileRoute("/login")({
     ],
   }),
   beforeLoad: async () => {
+    if (typeof window === "undefined") return;
+
     const { data } = await supabase.auth.getSession();
     if (data.session) throw redirect({ to: "/dashboard" });
   },
@@ -33,7 +35,8 @@ function LoginPage() {
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
-          email, password,
+          email,
+          password,
           options: {
             data: { full_name: name },
             emailRedirectTo: `${window.location.origin}/dashboard`,
@@ -65,28 +68,40 @@ function LoginPage() {
             {mode === "signin" ? "Welcome back" : "Create your workspace"}
           </h1>
           <p className="text-sm text-foreground/60 mt-1">
-            {mode === "signin" ? "Sign in to your EXECUTOR account." : "Free for 30 days. No card required."}
+            {mode === "signin"
+              ? "Sign in to your EXECUTOR account."
+              : "Free for 30 days. No card required."}
           </p>
           <form onSubmit={onSubmit} className="mt-6 space-y-3">
             {mode === "signup" && (
               <input
-                value={name} onChange={(e) => setName(e.target.value)}
-                placeholder="Your name" required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                required
                 className="w-full rounded-xl border border-border bg-input/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             )}
             <input
-              type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email" required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
               className="w-full rounded-xl border border-border bg-input/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
             <input
-              type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password" required minLength={6}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              minLength={6}
               className="w-full rounded-xl border border-border bg-input/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
             <button
-              type="submit" disabled={loading}
+              type="submit"
+              disabled={loading}
               className="w-full cta-glossy rounded-xl py-3 text-sm font-medium disabled:opacity-60"
             >
               {loading ? "Working…" : mode === "signin" ? "Sign in" : "Create account"}

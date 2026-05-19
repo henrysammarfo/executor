@@ -1,10 +1,12 @@
 import { createFileRoute, Outlet, redirect, Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, Upload, Mail, FileAudio, LogOut, ScrollText } from "lucide-react";
+import { LayoutDashboard, Upload, Mail, FileAudio, LogOut, ScrollText, Mic } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async () => {
+    if (typeof window === "undefined") return;
+
     const { data } = await supabase.auth.getSession();
     if (!data.session) throw redirect({ to: "/login" });
   },
@@ -14,9 +16,45 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthLayout() {
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
-  }, []);
+    let alive = true;
+
+    supabase.auth.getUser().then(({ data }) => {
+      if (!alive) return;
+      if (!data.user) {
+        router.navigate({ to: "/login" });
+        return;
+      }
+      setEmail(data.user.email ?? null);
+      setCheckingAuth(false);
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!alive) return;
+      if (!session) {
+        router.navigate({ to: "/login" });
+        return;
+      }
+      setEmail(session.user.email ?? null);
+      setCheckingAuth(false);
+    });
+
+    return () => {
+      alive = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [router]);
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-secondary/30 flex items-center justify-center text-sm text-foreground/60">
+        Checking session...
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex bg-secondary/30">
       <aside className="hidden md:flex w-60 flex-col border-r border-border/60 bg-card p-5">
@@ -25,16 +63,32 @@ function AuthLayout() {
           EXECUTOR
         </Link>
         <nav className="flex flex-col gap-1 text-sm">
-          <SideLink to="/dashboard" icon={LayoutDashboard}>Dashboard</SideLink>
-          <SideLink to="/upload" icon={Upload}>New meeting</SideLink>
-          <SideLink to="/meetings" icon={FileAudio}>Meetings</SideLink>
-          <SideLink to="/followups" icon={Mail}>Follow-ups</SideLink>
-          <SideLink to="/audit" icon={ScrollText}>Audit log</SideLink>
+          <SideLink to="/dashboard" icon={LayoutDashboard}>
+            Dashboard
+          </SideLink>
+          <SideLink to="/upload" icon={Upload}>
+            New meeting
+          </SideLink>
+          <SideLink to="/live" icon={Mic}>
+            Live meeting
+          </SideLink>
+          <SideLink to="/meetings" icon={FileAudio}>
+            Meetings
+          </SideLink>
+          <SideLink to="/followups" icon={Mail}>
+            Follow-ups
+          </SideLink>
+          <SideLink to="/audit" icon={ScrollText}>
+            Audit log
+          </SideLink>
         </nav>
         <div className="mt-auto pt-6 border-t border-border/60">
           <div className="text-xs text-foreground/50 truncate">{email}</div>
           <button
-            onClick={async () => { await supabase.auth.signOut(); router.navigate({ to: "/" }); }}
+            onClick={async () => {
+              await supabase.auth.signOut();
+              router.navigate({ to: "/" });
+            }}
             className="mt-2 flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground"
           >
             <LogOut className="h-4 w-4" /> Sign out
@@ -43,10 +97,13 @@ function AuthLayout() {
       </aside>
       <div className="flex-1 min-w-0">
         <div className="md:hidden flex items-center justify-between p-4 border-b border-border/60 bg-card">
-          <Link to="/" className="font-medium">EXECUTOR</Link>
+          <Link to="/" className="font-medium">
+            EXECUTOR
+          </Link>
           <div className="flex gap-3 text-sm">
             <Link to="/dashboard">Board</Link>
             <Link to="/upload">New</Link>
+            <Link to="/live">Live</Link>
             <Link to="/followups">Follow-ups</Link>
           </div>
         </div>
@@ -58,12 +115,23 @@ function AuthLayout() {
   );
 }
 
-function SideLink({ to, icon: Icon, children }: { to: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }) {
+function SideLink({
+  to,
+  icon: Icon,
+  children,
+}: {
+  to: string;
+  icon: React.ComponentType<{ className?: string }>;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       to={to}
       className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary text-foreground/80"
-      activeProps={{ className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary text-foreground font-medium" }}
+      activeProps={{
+        className:
+          "flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary text-foreground font-medium",
+      }}
     >
       <Icon className="h-4 w-4" /> {children}
     </Link>

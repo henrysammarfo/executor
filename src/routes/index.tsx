@@ -7,9 +7,16 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "EXECUTOR — Meetings without EXECUTOR are just conversations" },
-      { name: "description", content: "Autonomous multi-agent system that turns meeting decisions into tracked commitments. Extract, assign, monitor, and follow up — automatically." },
+      {
+        name: "description",
+        content:
+          "Autonomous multi-agent system that turns meeting decisions into tracked commitments. Extract, assign, monitor, and follow up — automatically.",
+      },
       { property: "og:title", content: "EXECUTOR — Autonomous Enterprise Execution" },
-      { property: "og:description", content: "70% of AI-generated action items are never completed. EXECUTOR closes the gap." },
+      {
+        property: "og:description",
+        content: "70% of AI-generated action items are never completed. EXECUTOR closes the gap.",
+      },
     ],
   }),
   component: LandingPage,
@@ -66,7 +73,8 @@ function Hero() {
           <span className="font-serif-italic text-[50px] sm:text-[72px] md:text-[88px] lg:text-[100px] text-foreground">
             execution
           </span>
-          <br />for your team
+          <br />
+          for your team
         </motion.h1>
 
         <motion.p
@@ -75,8 +83,8 @@ function Hero() {
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
           className="text-base md:text-lg text-[#373a46]/80 max-w-[554px]"
         >
-          EXECUTOR is the first autonomous agent that doesn't just summarize meetings — it
-          monitors every commitment and takes the next step when humans stall.
+          EXECUTOR is the first autonomous agent that doesn't just summarize meetings — it monitors
+          every commitment and takes the next step when humans stall.
         </motion.p>
 
         <motion.div
@@ -86,7 +94,10 @@ function Hero() {
           className="w-full max-w-[520px]"
         >
           <form
-            onSubmit={(e) => { e.preventDefault(); window.location.href = "/login"; }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              window.location.href = "/login";
+            }}
             className="flex items-center gap-2 p-2 rounded-[40px] bg-[#fcfcfc] border border-border/70 shadow-soft"
           >
             <input
@@ -111,11 +122,13 @@ function Hero() {
           className="flex items-center gap-3 text-xs text-foreground/70"
         >
           <div className="flex -space-x-1">
-            {[0,1,2,3,4].map(i => (
+            {[0, 1, 2, 3, 4].map((i) => (
               <Star key={i} className="h-3.5 w-3.5 fill-[#f5b400] text-[#f5b400]" />
             ))}
           </div>
-          <span><span className="font-medium text-foreground">1,020+</span> Reviews</span>
+          <span>
+            <span className="font-medium text-foreground">1,020+</span> Reviews
+          </span>
           <span className="text-foreground/30">·</span>
           <span>Trusted by ops leaders at 40+ teams</span>
         </motion.div>
@@ -131,7 +144,8 @@ function ProblemSection() {
         <div className="md:col-span-1">
           <p className="text-sm uppercase tracking-widest text-foreground/50">The gap</p>
           <h2 className="mt-3 text-3xl md:text-4xl font-medium tracking-tight">
-            Every AI tool tells you what to do. <span className="font-serif-italic">Nobody checks if you did it.</span>
+            Every AI tool tells you what to do.{" "}
+            <span className="font-serif-italic">Nobody checks if you did it.</span>
           </h2>
         </div>
         <div className="md:col-span-2 grid sm:grid-cols-3 gap-6">
@@ -153,10 +167,22 @@ function ProblemSection() {
 
 const AGENTS = [
   { icon: Mic, name: "Scribe", desc: "Real-time transcription via Speechmatics. Batch or live." },
-  { icon: ListChecks, name: "Extractor", desc: "Gemini Pro pulls every commitment: what, who, when, priority." },
+  {
+    icon: ListChecks,
+    name: "Extractor",
+    desc: "Gemini Pro pulls every commitment: what, who, when, priority.",
+  },
   { icon: Send, name: "Assigner", desc: "Resolves owners, creates tasks, emails confirmation." },
-  { icon: Radar, name: "Monitor", desc: "Polls every 6 hours. Flags overdue. Scores completion risk." },
-  { icon: AlertTriangle, name: "Executor", desc: "Drafts the follow-up. Auto-sends after 24h. Escalates after 2 misses." },
+  {
+    icon: Radar,
+    name: "Monitor",
+    desc: "Polls every 6 hours. Flags overdue. Scores completion risk.",
+  },
+  {
+    icon: AlertTriangle,
+    name: "Executor",
+    desc: "Drafts the follow-up. Auto-sends after 24h. Escalates after 2 misses.",
+  },
 ];
 
 function AgentsSection() {
@@ -164,7 +190,9 @@ function AgentsSection() {
     <section className="px-6 md:px-10 py-20 md:py-28 bg-secondary/40 border-y border-border/60">
       <div className="max-w-[1200px] mx-auto">
         <div className="max-w-2xl">
-          <p className="text-sm uppercase tracking-widest text-foreground/50">Five agents. One job.</p>
+          <p className="text-sm uppercase tracking-widest text-foreground/50">
+            Five agents. One job.
+          </p>
           <h2 className="mt-3 text-3xl md:text-4xl font-medium tracking-tight">
             The execution stack, <span className="font-serif-italic">end to end.</span>
           </h2>
@@ -182,7 +210,7 @@ function AgentsSection() {
               <div className="h-9 w-9 rounded-full bg-foreground/5 flex items-center justify-center">
                 <a.icon className="h-4 w-4" />
               </div>
-              <div className="text-xs text-foreground/40">0{i+1}</div>
+              <div className="text-xs text-foreground/40">0{i + 1}</div>
               <div className="font-medium">{a.name}</div>
               <div className="text-sm text-foreground/60 leading-relaxed">{a.desc}</div>
             </motion.div>
@@ -195,10 +223,26 @@ function AgentsSection() {
 
 function HowItWorks() {
   const steps = [
-    { n: "01", t: "Upload or stream a meeting", d: "Drop in audio or paste a transcript. Live capture works too." },
-    { n: "02", t: "EXECUTOR extracts commitments", d: "Owners, deadlines, priority, verbatim quotes. Structured. Searchable." },
-    { n: "03", t: "It watches the gap, not you", d: "Risk scored. Overdue surfaced. Drafts written before you ask." },
-    { n: "04", t: "Acts when humans stall", d: "Auto-sends a firm follow-up after 24h. Escalates after 2 misses." },
+    {
+      n: "01",
+      t: "Upload or stream a meeting",
+      d: "Drop in audio or paste a transcript. Live capture works too.",
+    },
+    {
+      n: "02",
+      t: "EXECUTOR extracts commitments",
+      d: "Owners, deadlines, priority, verbatim quotes. Structured. Searchable.",
+    },
+    {
+      n: "03",
+      t: "It watches the gap, not you",
+      d: "Risk scored. Overdue surfaced. Drafts written before you ask.",
+    },
+    {
+      n: "04",
+      t: "Acts when humans stall",
+      d: "Auto-sends a firm follow-up after 24h. Escalates after 2 misses.",
+    },
   ];
   return (
     <section className="px-6 md:px-10 py-24 md:py-32">
@@ -209,14 +253,16 @@ function HowItWorks() {
             The last mile of <span className="font-serif-italic">accountability</span>, automated.
           </h2>
           <p className="mt-6 text-foreground/60 max-w-md">
-            Other AI tools stop at the summary. EXECUTOR starts there — and doesn't stop until
-            the work actually ships.
+            Other AI tools stop at the summary. EXECUTOR starts there — and doesn't stop until the
+            work actually ships.
           </p>
         </div>
         <div className="space-y-6">
           {steps.map((s) => (
             <div key={s.n} className="flex gap-5 pb-6 border-b border-border/60 last:border-0">
-              <div className="font-serif-italic text-2xl text-foreground/40 min-w-[40px]">{s.n}</div>
+              <div className="font-serif-italic text-2xl text-foreground/40 min-w-[40px]">
+                {s.n}
+              </div>
               <div>
                 <div className="font-medium">{s.t}</div>
                 <div className="text-sm text-foreground/60 mt-1">{s.d}</div>
@@ -234,7 +280,8 @@ function CTASection() {
     <section className="px-6 md:px-10 pb-24">
       <div className="max-w-[1200px] mx-auto rounded-3xl bg-foreground text-background p-10 md:p-16 text-center">
         <h2 className="text-3xl md:text-5xl font-medium tracking-tight">
-          Meetings without EXECUTOR<br />
+          Meetings without EXECUTOR
+          <br />
           <span className="font-serif-italic opacity-80">are just conversations.</span>
         </h2>
         <p className="mt-4 text-background/60 max-w-xl mx-auto">

@@ -1,8 +1,9 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
+import { getGeminiProModel } from "@/lib/ai-gateway";
 import { generateText, Output } from "ai";
 import { z } from "zod";
 import { audit } from "@/lib/audit.server";
+import { scoreActionItemRisk } from "@/lib/risk-score";
 
 const ItemSchema = z.object({
   what: z.string(),
@@ -23,8 +24,7 @@ export async function extractForMeetingAdmin(meetingId: string) {
   if (error || !meeting) throw new Error("Meeting not found");
   if (!meeting.transcript_text) throw new Error("Meeting has no transcript");
 
-  const gateway = createLovableAiGatewayProvider(process.env.LOVABLE_API_KEY!);
-  const model = gateway("google/gemini-3-pro-preview");
+  const model = getGeminiProModel();
   const today = new Date().toISOString().slice(0, 10);
 
   const { experimental_output } = await generateText({
@@ -50,17 +50,22 @@ ${meeting.transcript_text}`,
     return { inserted: 0 };
   }
 
-  const rows = items.map((it) => ({
-    meeting_id: meeting.id,
-    owner_id: meeting.owner_id,
-    what: it.what,
-    who_name: it.who_name,
-    who_email: it.who_email,
-    due_date: it.due_date,
-    priority: it.priority,
-    verbatim_quote: it.verbatim_quote,
-    status: "open" as const,
-  }));
+  const rows = items.map((it) => {
+    const baselineRisk = scoreActionItemRisk(it);
+    return {
+      meeting_id: meeting.id,
+      owner_id: meeting.owner_id,
+      what: it.what,
+      who_name: it.who_name,
+      who_email: it.who_email,
+      due_date: it.due_date,
+      priority: it.priority,
+      verbatim_quote: it.verbatim_quote,
+      risk_score: baselineRisk.score,
+      risk_reason: baselineRisk.reason,
+      status: "open" as const,
+    };
+  });
 
   const { data: inserted, error: iErr } = await supabaseAdmin
     .from("action_items")

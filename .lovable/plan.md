@@ -64,6 +64,7 @@ Exact spec implemented: `min-h-screen`, `pt-[290px]`, `max-w-[1200px]`, `gap-y-8
 ## Design system
 
 Light, editorial, premium. Add tokens to `src/styles.css`:
+
 - `--background` near-white, `--foreground` slate `#373a46`, `--primary` near-black with subtle gradient utility `--gradient-cta`, `--shadow-soft` `0 10px 40px 5px rgba(194,194,194,0.25)`, accent for risk badges (green/amber/red).
 - Fonts: load Geist + Instrument Serif via `<link>` in `__root.tsx` head.
 

@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Executor Pitch Deck</title>
+    <style>
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #111827;
+        background: #f8fafc;
+      }
+
+      .slide {
+        position: relative;
+        width: 13.333in;
+        height: 7.5in;
+        padding: 0.62in 0.72in;
+        page-break-after: always;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 88% 12%, rgba(20, 184, 166, 0.16), transparent 34%),
+          linear-gradient(135deg, #f8fafc 0%, #eef2ff 52%, #ecfeff 100%);
+      }
+
+      .slide.dark {
+        color: #f8fafc;
+        background:
+          radial-gradient(circle at 84% 20%, rgba(20, 184, 166, 0.28), transparent 34%),
+          linear-gradient(135deg, #0f172a 0%, #1e293b 68%, #164e63 100%);
+      }
+
+      .kicker {
+        color: #0f766e;
+        font-size: 0.21in;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .dark .kicker {
+        color: #67e8f9;
+      }
+
+      h1 {
+        max-width: 9.6in;
+        margin: 0.2in 0 0;
+        font-size: 0.82in;
+        line-height: 0.94;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 0.12in 0 0.28in;
+        font-size: 0.56in;
+        line-height: 1.04;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 8.4in;
+        color: #475467;
+        font-size: 0.25in;
+        line-height: 1.36;
+      }
+
+      .dark p {
+        color: #dbeafe;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.28in;
+        margin-top: 0.35in;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.22in;
+        margin-top: 0.3in;
+      }
+
+      .card {
+        min-height: 1.28in;
+        padding: 0.22in;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 0.13in;
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .dark .card {
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 0.08in;
+        color: #0f172a;
+        font-size: 0.24in;
+      }
+
+      .dark .card strong {
+        color: #ffffff;
+      }
+
+      .card span,
+      li {
+        color: #475467;
+        font-size: 0.18in;
+        line-height: 1.33;
+      }
+
+      .dark .card span,
+      .dark li {
+        color: #dbeafe;
+      }
+
+      ul {
+        margin: 0.22in 0 0;
+        padding-left: 0.28in;
+      }
+
+      li {
+        margin: 0.09in 0;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.12in;
+        margin-top: 0.36in;
+      }
+
+      .step {
+        min-height: 1.55in;
+        padding: 0.18in;
+        border-radius: 0.12in;
+        background: #ffffff;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+      }
+
+      .step-num {
+        width: 0.38in;
+        height: 0.38in;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: white;
+        background: #2563eb;
+        font-weight: 800;
+        margin-bottom: 0.12in;
+      }
+
+      .step strong {
+        display: block;
+        font-size: 0.19in;
+        margin-bottom: 0.08in;
+      }
+
+      .step span {
+        color: #667085;
+        font-size: 0.15in;
+        line-height: 1.3;
+      }
+
+      .metric {
+        font-size: 0.58in;
+        font-weight: 900;
+        color: #0f172a;
+      }
+
+      .dark .metric {
+        color: #67e8f9;
+      }
+
+      .footer {
+        position: absolute;
+        left: 0.72in;
+        right: 0.72in;
+        bottom: 0.35in;
+        display: flex;
+        justify-content: space-between;
+        color: #64748b;
+        font-size: 0.14in;
+      }
+
+      .dark .footer {
+        color: #bae6fd;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="slide dark">
+      <div class="kicker">Executor</div>
+      <h1>Autonomous meeting-to-execution enforcement.</h1>
+      <p>
+        Executor closes the gap between "we decided" and "it got done" by
+        turning meetings into tracked commitments, risk signals, follow-ups,
+        and manager escalations.
+      </p>
+      <div class="grid-3">
+        <div class="card">
+          <strong>Voice to commitments</strong>
+          <span>Speechmatics captures live meetings and uploaded audio.</span>
+        </div>
+        <div class="card">
+          <strong>Reasoning layer</strong>
+          <span>Gemini extracts owners, dates, priorities, and evidence.</span>
+        </div>
+        <div class="card">
+          <strong>Execution loop</strong>
+          <span>Vultr monitor enforces overdue work every six hours.</span>
+        </div>
+      </div>
+      <div class="footer">
+        <span>AI Agent Olympics Hackathon 2026</span>
+        <span>executor.genesis-ai.workers.dev</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Problem</div>
+      <h2>Action items fail after the meeting, not during extraction.</h2>
+      <div class="grid-2">
+        <div class="card">
+          <strong>The real gap</strong>
+          <span>
+            Teams leave meetings with decisions, but ownership, deadlines,
+            reminders, and escalation paths are scattered or missing.
+          </span>
+        </div>
+        <div class="card">
+          <strong>Why summaries are not enough</strong>
+          <span>
+            A summary is passive. Execution needs assignment, monitoring,
+            risk scoring, tool sync, and accountable follow-through.
+          </span>
+        </div>
+      </div>
+      <ul>
+        <li>Commitments are buried across recordings, notes, and chat threads.</li>
+        <li>Project tools do not know which meeting created the work.</li>
+        <li>Managers discover stalled commitments after deadlines slip.</li>
+      </ul>
+      <div class="footer"><span>Executor pitch deck</span><span>02</span></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Solution</div>
+      <h2>A five-agent pipeline that keeps work moving.</h2>
+      <div class="flow">
+        <div class="step">
+          <div class="step-num">1</div>
+          <strong>Ingestion</strong>
+          <span>Live Speechmatics transcription or transcript upload.</span>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <strong>Extraction</strong>
+          <span>Gemini returns structured action items and source quotes.</span>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <strong>Assignment</strong>
+          <span>Tasks sync into Jira, Asana, and Notion.</span>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <strong>Monitoring</strong>
+          <span>Risk score updates as deadlines and status change.</span>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <strong>Escalation</strong>
+          <span>Follow-ups and manager drafts with human review.</span>
+        </div>
+      </div>
+      <div class="footer"><span>Executor pitch deck</span><span>03</span></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Architecture</div>
+      <h2>Production-shaped stack, not a static demo.</h2>
+      <div class="grid-3">
+        <div class="card">
+          <strong>Frontend</strong>
+          <span>React, TanStack Start, Tailwind, Cloudflare Workers deployment.</span>
+        </div>
+        <div class="card">
+          <strong>Data and auth</strong>
+          <span>Supabase Auth, Postgres tables, RLS-ready design, audit log.</span>
+        </div>
+        <div class="card">
+          <strong>AI reasoning</strong>
+          <span>Gemini Flash or Pro for extraction, risk, and email drafting.</span>
+        </div>
+        <div class="card">
+          <strong>Voice</strong>
+          <span>Speechmatics real-time transcription for live meetings.</span>
+        </div>
+        <div class="card">
+          <strong>Execution tools</strong>
+          <span>Jira, Asana, and Notion APIs create external task records.</span>
+        </div>
+        <div class="card">
+          <strong>Enforcement</strong>
+          <span>Vultr Ubuntu VM, PM2, cron schedule, monitor endpoint.</span>
+        </div>
+      </div>
+      <div class="footer"><span>Executor pitch deck</span><span>04</span></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Autonomy</div>
+      <h2>The monitor runs after people stop watching.</h2>
+      <div class="grid-2">
+        <div>
+          <div class="metric">6h</div>
+          <p>
+            The Vultr worker checks commitments every six hours and can also be
+            triggered manually for demos.
+          </p>
+        </div>
+        <div>
+          <ul>
+            <li>Flags overdue or stalled items based on deadline and status.</li>
+            <li>Drafts owner follow-ups with context from the source meeting.</li>
+            <li>Escalates to a manager after repeated unanswered follow-ups.</li>
+            <li>Stores every action in the audit log for traceability.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Executor pitch deck</span><span>05</span></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Demo flow</div>
+      <h2>What judges can try in the live app.</h2>
+      <div class="grid-2">
+        <div class="card">
+          <strong>Meeting intake</strong>
+          <span>
+            Start a live meeting or upload a transcript, then extract action
+            items with owners, dates, priorities, and evidence quotes.
+          </span>
+        </div>
+        <div class="card">
+          <strong>Execution dashboard</strong>
+          <span>
+            View commitments, edit missing owner or manager details, mark
+            completion, and inspect risk state.
+          </span>
+        </div>
+        <div class="card">
+          <strong>Tool sync</strong>
+          <span>
+            Push selected tasks into Jira, Asana, or Notion from the meeting
+            detail screen.
+          </span>
+        </div>
+        <div class="card">
+          <strong>Follow-up enforcement</strong>
+          <span>
+            Review AI-drafted owner emails and manager escalations before
+            sending.
+          </span>
+        </div>
+      </div>
+      <div class="footer"><span>Executor pitch deck</span><span>06</span></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="kicker">Impact</div>
+      <h2>Executor turns meeting intelligence into operating discipline.</h2>
+      <div class="grid-3">
+        <div class="card">
+          <strong>Business value</strong>
+          <span>Reduces dropped commitments and manual follow-up work.</span>
+        </div>
+        <div class="card">
+          <strong>Enterprise fit</strong>
+          <span>Works with existing project systems instead of replacing them.</span>
+        </div>
+        <div class="card">
+          <strong>Autonomous guardrails</strong>
+          <span>Human review, audit logs, and manager override paths.</span>
+        </div>
+      </div>
+      <p>
+        Built with Gemini, Speechmatics, Vultr, Supabase, Cloudflare Workers,
+        Jira, Asana, Notion, and Resend.
+      </p>
+      <div class="footer">
+        <span>Executor</span>
+        <span>Close the accountability gap.</span>
+      </div>
+    </section>
+  </body>
+</html>

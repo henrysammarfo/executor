@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -8,6 +8,7 @@ export const Route = createFileRoute("/_authenticated/meetings")({
 });
 
 function MeetingsList() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: meetings = [] } = useQuery({
     queryKey: ["meetings"],
     queryFn: async () => {
@@ -20,6 +21,8 @@ function MeetingsList() {
     },
   });
 
+  if (pathname !== "/meetings") return <Outlet />;
+
   return (
     <div>
       <h1 className="text-3xl md:text-4xl font-medium tracking-tight">Meetings</h1>
@@ -28,10 +31,15 @@ function MeetingsList() {
         {meetings.length === 0 && (
           <div className="rounded-2xl border border-dashed border-border p-12 text-center bg-card">
             <p className="text-foreground/60">No meetings yet.</p>
-            <Link to="/upload" className="mt-4 inline-block cta-glossy rounded-full px-5 py-2 text-sm">Upload one</Link>
+            <Link
+              to="/upload"
+              className="mt-4 inline-block cta-glossy rounded-full px-5 py-2 text-sm"
+            >
+              Upload one
+            </Link>
           </div>
         )}
-        {meetings.map(m => (
+        {meetings.map((m) => (
           <Link
             key={m.id}
             to="/meetings/$id"
