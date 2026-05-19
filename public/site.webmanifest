@@ -1,0 +1,16 @@
+{
+  "name": "EXECUTOR",
+  "short_name": "EXECUTOR",
+  "description": "Autonomous meeting-to-execution enforcement.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

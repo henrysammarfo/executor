@@ -13,6 +13,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 import appCss from "../styles.css?url";
 
+const siteUrl = "https://executor.genesis-ai.workers.dev";
+const siteTitle = "EXECUTOR - Autonomous Enterprise Execution Agent";
+const siteDescription =
+  "EXECUTOR closes the accountability gap between meeting decisions and execution with AI extraction, task sync, monitoring, and follow-up escalation.";
+const socialImage = `${siteUrl}/og-image.png`;
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -54,19 +60,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "EXECUTOR — Autonomous Enterprise Execution Agent" },
-      {
-        name: "description",
-        content:
-          "EXECUTOR closes the accountability gap between meeting decisions and execution. Autonomous follow-up. Real ownership.",
-      },
-      { property: "og:title", content: "EXECUTOR — Autonomous Enterprise Execution Agent" },
-      { property: "og:description", content: "Meetings without EXECUTOR are just conversations." },
+      { title: siteTitle },
+      { name: "description", content: siteDescription },
+      { name: "application-name", content: "EXECUTOR" },
+      { name: "theme-color", content: "#0f172a" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:site_name", content: "EXECUTOR" },
+      { property: "og:title", content: siteTitle },
+      { property: "og:description", content: siteDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: siteUrl },
+      { property: "og:image", content: socialImage },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "EXECUTOR meeting-to-execution pipeline" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: siteTitle },
+      { name: "twitter:description", content: siteDescription },
+      { name: "twitter:image", content: socialImage },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "canonical", href: siteUrl },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "image_src", href: socialImage },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
